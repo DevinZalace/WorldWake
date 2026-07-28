@@ -4,6 +4,8 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
+from worldwake.world_seed import router as world_seed_router
+
 
 # Resolve the package and static asset directories from this module location.
 PACKAGE_DIRECTORY = Path(__file__).resolve().parent
@@ -16,6 +18,8 @@ app = FastAPI(
     description="Create a world, record its history, and keep it moving.",
     version="0.1.0",
 )
+
+app.include_router(world_seed_router)
 
 
 # Serve frontend assets from the static folder so the UI can load correctly.
