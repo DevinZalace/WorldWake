@@ -1,3 +1,6 @@
+"""Simple prototype helpers for turning campaign events into world consequences."""
+
+
 def determine_consequence(event: str, days_passed: int) -> str:
     """Create a simple consequence based on the campaign event."""
 

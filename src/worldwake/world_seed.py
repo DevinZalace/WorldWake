@@ -1,4 +1,9 @@
-"""HTTP API for uploading world seeds and requesting fantasy maps."""
+"""HTTP API for uploading world seeds and requesting fantasy maps.
+
+The router stores uploaded images and generation requests on disk so the rest
+of the application can work with simple JSON metadata files while the full
+world-generation engine is still being developed.
+"""
 
 from __future__ import annotations
 
@@ -19,6 +24,7 @@ from pydantic import BaseModel, Field
 
 router = APIRouter(prefix="/api", tags=["WorldSeed"])
 
+# Guard the upload flow against oversized payloads and unsupported media.
 MAX_UPLOAD_BYTES = 15 * 1024 * 1024
 MAX_IMAGE_PIXELS = 40_000_000
 SUPPORTED_IMAGE_FORMATS = {
@@ -90,6 +96,8 @@ def _write_json(path: Path, payload: dict[str, object]) -> None:
 
 
 def _read_json(path: Path, detail: str) -> dict[str, object]:
+    """Load persisted JSON metadata or raise a structured API error."""
+
     if not path.is_file():
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=detail)
 
@@ -144,6 +152,9 @@ async def upload_world_seed(
     image: Annotated[UploadFile, File(description="The source shape or sketch")],
 ) -> WorldSeedResponse:
     """Validate and store an image that will become a generated world."""
+
+    # Read the uploaded bytes once so the request can be validated and persisted
+    # without leaving a partially stored file behind on failure.
 
     try:
         contents = await image.read(MAX_UPLOAD_BYTES + 1)
@@ -218,6 +229,9 @@ async def request_map_generation(
     request: GenerationRequest,
 ) -> GenerationResponse:
     """Record a generation request for the upcoming terrain engine."""
+
+    # Persist the request immediately so the generation workflow can be resumed
+    # later, even before the visual engine has been connected.
 
     seed_metadata_path = (
         get_data_directory() / "world_seeds" / f"{seed_id}.json"

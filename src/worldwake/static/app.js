@@ -1,3 +1,5 @@
+// The upload experience is driven by a handful of DOM references that keep the
+// UI logic simple and focused on previewing the selected image.
 const imageInput = document.querySelector("#seed-image");
 const imagePreview = document.querySelector("#image-preview");
 const previewMessage = document.querySelector("#preview-message");
@@ -9,6 +11,8 @@ let previewUrl = null;
 
 
 function clearExistingPreviewUrl() {
+    // Revoke the previous object URL so the browser does not retain stale blobs
+    // in memory after the user picks another image.
     // Revoke any previous object URL to avoid memory leaks and stale previews.
     if (previewUrl !== null) {
         URL.revokeObjectURL(previewUrl);
@@ -18,6 +22,8 @@ function clearExistingPreviewUrl() {
 
 
 function showSelectedImage(selectedFile) {
+    // Mirror the selected file into the preview panel and keep the UI text in
+    // sync with the current upload state.
     clearExistingPreviewUrl();
 
     if (!selectedFile) {

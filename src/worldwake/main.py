@@ -1,3 +1,9 @@
+"""Application entry point for the WorldWake web service.
+
+This module wires the FastAPI app, registers the API routes, and serves the
+frontend assets that power the WorldSeed experience.
+"""
+
 from pathlib import Path
 
 from fastapi import FastAPI
@@ -19,6 +25,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
+# Register the API endpoints that manage world seeds and generation requests.
 app.include_router(world_seed_router)
 
 

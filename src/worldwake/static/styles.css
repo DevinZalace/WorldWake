@@ -2,6 +2,7 @@
     box-sizing: border-box;
 }
 
+/* Theme tokens keep the visual language consistent across the landing page. */
 :root {
     --night: #101712;
     --night-soft: #172019;
@@ -155,6 +156,7 @@ h1 span {
     align-items: stretch;
 }
 
+/* The upload workflow uses a simple card-like layout with drag-and-drop affordances. */
 .upload-panel {
     position: relative;
     padding: 20px 0 12px;
@@ -466,6 +468,7 @@ h1 span {
     transform: scale(0.75) rotate(26deg);
 }
 
+/* Responsive adjustments preserve the layout on smaller screens. */
 @media (max-width: 760px) {
     .page-shell {
         width: min(100% - 28px, 620px);
