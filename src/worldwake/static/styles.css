@@ -1,0 +1,147 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Base page styling and immersive background treatment. */
+body {
+    min-height: 100vh;
+    margin: 0;
+    font-family: Georgia, "Times New Roman", serif;
+    color: #eee7d5;
+    background:
+        radial-gradient(circle at top, #263b38 0%, #111817 70%);
+}
+
+button,
+input,
+label {
+    font: inherit;
+}
+
+/* Main page container and introductory header layout. */
+.page-shell {
+    width: min(1100px, calc(100% - 40px));
+    margin: 0 auto;
+    padding: 64px 0;
+}
+
+.page-header {
+    max-width: 720px;
+    margin-bottom: 40px;
+}
+
+.eyebrow {
+    margin: 0 0 10px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    letter-spacing: 0.25rem;
+    color: #c8a965;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 0.95;
+}
+
+.introduction {
+    margin-top: 22px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #c9d0c7;
+}
+
+/* Two-column layout for the upload and preview panels. */
+.seed-workspace {
+    display: grid;
+    grid-template-columns: minmax(260px, 0.7fr) minmax(0, 1.3fr);
+    gap: 24px;
+}
+
+.upload-panel,
+.preview-panel {
+    border: 1px solid rgba(238, 231, 213, 0.18);
+    border-radius: 16px;
+    background: rgba(10, 16, 15, 0.72);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.25);
+}
+
+/* Styling for the upload area and its interactive button. */
+.upload-panel {
+    padding: 32px;
+}
+
+.upload-panel h2 {
+    margin-top: 0;
+}
+
+.upload-panel p {
+    line-height: 1.6;
+    color: #bfc8bf;
+}
+
+#seed-image {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+}
+
+.upload-button {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    font-weight: bold;
+    color: #17201e;
+    background: #d2b571;
+    cursor: pointer;
+}
+
+.upload-button:hover {
+    background: #e4ca8b;
+}
+
+.upload-button:focus-within {
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
+
+.file-name {
+    margin-bottom: 0;
+    font-size: 0.9rem;
+}
+
+/* Preview panel styling and centered image presentation. */
+.preview-panel {
+    min-height: 460px;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.preview-message {
+    color: #89958d;
+    text-align: center;
+}
+
+#image-preview {
+    display: block;
+    width: 100%;
+    max-height: 560px;
+    object-fit: contain;
+    border-radius: 10px;
+}
+
+/* Responsive behavior for narrower screens. */
+@media (max-width: 760px) {
+    .seed-workspace {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-panel {
+        min-height: 320px;
+    }
+}

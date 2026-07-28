@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>WorldSeed | WorldWake</title>
+
+    <link rel="stylesheet" href="/static/styles.css">
+    <script src="/static/app.js" defer></script>
+</head>
+
+<body>
+    <main class="page-shell">
+        <!-- Main landing content for the WorldSeed experience. -->
+        <header class="page-header">
+            <p class="eyebrow">WORLDWAKE</p>
+            <h1>WorldSeed</h1>
+
+            <p class="introduction">
+                Give us a shape. We will awaken a world inside it.
+            </p>
+        </header>
+
+        <section class="seed-workspace">
+            <!-- Upload controls for selecting a world seed image. -->
+            <div class="upload-panel">
+                <h2>Choose a world seed</h2>
+
+                <p>
+                    Upload a sketch, boundary, ink blot, or existing map.
+                </p>
+
+                <label class="upload-button" for="seed-image">
+                    Select an image
+                </label>
+
+                <input
+                    id="seed-image"
+                    type="file"
+                    accept="image/*"
+                >
+
+                <p id="file-name" class="file-name">
+                    No image selected.
+                </p>
+            </div>
+
+            <!-- Preview area for rendering the selected image. -->
+            <div class="preview-panel">
+                <p id="preview-message" class="preview-message">
+                    Your unexplored world will appear here.
+                </p>
+
+                <img
+                    id="image-preview"
+                    alt="Preview of the selected world seed"
+                    hidden
+                >
+            </div>
+        </section>
+    </main>
+</body>
+</html>

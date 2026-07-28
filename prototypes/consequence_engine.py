@@ -1,8 +1,10 @@
 def determine_consequence(event: str, days_passed: int) -> str:
     """Create a simple consequence based on the campaign event."""
 
+    # Normalize the input so keyword checks are case-insensitive.
     event_lower = event.lower()
 
+    # Crown-related events tend to trigger political tension.
     if "king" in event_lower or "queen" in event_lower:
         return (
             f"After {days_passed} days, rumors surrounding the crown have "
@@ -10,12 +12,14 @@ def determine_consequence(event: str, days_passed: int) -> str:
             "to choose sides."
         )
 
+    # Threats such as monsters or dragons create fear and economic disruption.
     if "monster" in event_lower or "dragon" in event_lower:
         return (
             f"After {days_passed} days, travelers have started avoiding the "
             "region. Trade slows, prices rise, and hunters begin organizing."
         )
 
+    # Local happenings ripple outward into nearby communities.
     if "village" in event_lower or "town" in event_lower:
         return (
             f"After {days_passed} days, news of the event reaches nearby "
@@ -23,6 +27,7 @@ def determine_consequence(event: str, days_passed: int) -> str:
             "to investigate."
         )
 
+    # Fall back to a general world-changing consequence for unexpected events.
     return (
         f"After {days_passed} days, the event begins producing quiet ripples "
         "through the world. Someone has noticed, although their intentions "
@@ -31,11 +36,14 @@ def determine_consequence(event: str, days_passed: int) -> str:
 
 
 def main() -> None:
+    """Collect campaign input and print a short world update."""
+
     print("\nWORLDWAKE")
     print("The world continues, even when the party is elsewhere.\n")
 
     event = input("What happened in the campaign? ")
 
+    # Keep prompting until the user enters a valid non-negative day count.
     while True:
         days_text = input("How many days have passed? ")
 
