@@ -1,9 +1,0 @@
-README.md
-pyproject.toml
-src/worldwake/__init__.py
-src/worldwake/main.py
-src/worldwake.egg-info/PKG-INFO
-src/worldwake.egg-info/SOURCES.txt
-src/worldwake.egg-info/dependency_links.txt
-src/worldwake.egg-info/requires.txt
-src/worldwake.egg-info/top_level.txt
