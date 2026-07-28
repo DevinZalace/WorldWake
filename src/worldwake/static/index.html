@@ -15,27 +15,45 @@
 
 <body>
     <main class="page-shell">
-        <!-- Main landing content for the WorldSeed experience. -->
-        <header class="page-header">
-            <p class="eyebrow">WORLDWAKE</p>
-            <h1>WorldSeed</h1>
+        <div class="constellation constellation-one" aria-hidden="true"></div>
+        <div class="constellation constellation-two" aria-hidden="true"></div>
 
-            <p class="introduction">
-                Give us a shape. We will awaken a world inside it.
-            </p>
+        <header class="page-header">
+            <div class="brand-mark" aria-hidden="true">
+                <span>W</span>
+            </div>
+
+            <div>
+                <p class="eyebrow">An instrument of WorldWake</p>
+                <h1>World<span>Seed</span></h1>
+
+                <p class="introduction">
+                    Bring a shape from the edge of your imagination.
+                    We&rsquo;ll find the world sleeping inside it.
+                </p>
+            </div>
         </header>
 
-        <section class="seed-workspace">
-            <!-- Upload controls for selecting a world seed image. -->
-            <div class="upload-panel">
-                <h2>Choose a world seed</h2>
+        <div class="chapter-rule" aria-hidden="true">
+            <span></span>
+            <b>✦</b>
+            <span></span>
+        </div>
 
-                <p>
-                    Upload a sketch, boundary, ink blot, or existing map.
+        <section class="seed-workspace">
+            <div class="upload-panel">
+                <p class="step-label">The first rite</p>
+                <h2>Offer a shape</h2>
+
+                <p class="instructions">
+                    A coastline from a notebook. An old county line. A stain
+                    from this morning&rsquo;s tea. Any shape can hold a world.
                 </p>
 
-                <label class="upload-button" for="seed-image">
-                    Select an image
+                <label class="drop-zone" for="seed-image">
+                    <span class="drop-rune" aria-hidden="true">⌁</span>
+                    <span class="drop-title">Lay your image here</span>
+                    <span class="drop-subtitle">or choose one from your collection</span>
                 </label>
 
                 <input
@@ -45,21 +63,39 @@
                 >
 
                 <p id="file-name" class="file-name">
-                    No image selected.
+                    The table is empty.
                 </p>
+
+                <aside class="field-note">
+                    <span>Field note № 01</span>
+                    <p>Rough marks are welcome. Worlds rarely begin neatly.</p>
+                </aside>
             </div>
 
-            <!-- Preview area for rendering the selected image. -->
             <div class="preview-panel">
-                <p id="preview-message" class="preview-message">
-                    Your unexplored world will appear here.
-                </p>
+                <div class="map-corner corner-top-left" aria-hidden="true"></div>
+                <div class="map-corner corner-top-right" aria-hidden="true"></div>
+                <div class="map-corner corner-bottom-left" aria-hidden="true"></div>
+                <div class="map-corner corner-bottom-right" aria-hidden="true"></div>
 
                 <img
                     id="image-preview"
                     alt="Preview of the selected world seed"
                     hidden
                 >
+
+                <div id="preview-message" class="preview-message">
+                    <div class="compass" aria-hidden="true">
+                        <span>N</span>
+                        <i></i>
+                    </div>
+                    <p>No country has taken shape&hellip; yet.</p>
+                    <small>Your unexplored world will appear on this parchment.</small>
+                </div>
+
+                <p class="map-caption" aria-hidden="true">
+                    Charted in the WorldWake atelier
+                </p>
             </div>
         </section>
     </main>
