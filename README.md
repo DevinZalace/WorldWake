@@ -1,254 +1,58 @@
 # WorldWake
 
-> **Create a world. Chronicle its history. Watch it awaken.**
+> Create a world. Chronicle its history. Watch it awaken.
 
-WorldWake is an open-source fantasy world simulation platform designed for tabletop RPGs, novels, and other fictional worlds. Instead of acting as a passive campaign wiki, WorldWake aims to become a living world engine that remembers player actions, simulates events beyond the party's view, and visualizes history across an interactive map.
+WorldWake is an early-stage fantasy world-generation project for tabletop RPGs and fictional settings.
 
-The long-term vision is divided into three major systems:
+Development currently focuses on **WorldSeed**, a FastAPI service that accepts map sketches or source images and prepares them for a future terrain-generation system.
 
-- **WorldSeed** – Create and shape fantasy worlds from sketches, maps, or prompts.
-- **Chronicle** – Convert campaign notes into structured historical events and geographic movement.
-- **WorldTurn** – Advance the world through time by simulating factions, trade, politics, resources, and the consequences of player actions.
+## Current Capabilities
 
----
+- Browser interface for selecting and previewing an image
+- Upload and validation of PNG, JPEG, WebP, and GIF images
+- Local storage of images and JSON metadata
+- Retrieval of previously uploaded world seeds
+- Creation and tracking of map-generation requests
+- Configurable world name, visual character, random seed, and land/sea inversion
 
-# Current Status
+WorldWake does **not** generate finished maps yet. Generation requests are currently stored with an `awaiting_generator` status while the terrain engine is developed.
 
- **Early Development**
-
-The project is currently focused on building the foundation for **WorldSeed**.
-
-The first prototype includes:
-
-- Modern Python project structure
-- FastAPI backend
-- Interactive browser interface
-- Local image upload
-- Instant image preview
-
-Future milestones will progressively transform an uploaded sketch into a structured fantasy world.
-
----
-
-# Project Vision
-
-Imagine uploading:
-
-- a hand-drawn continent
-- a county boundary
-- a napkin sketch
-- an ink blot
-- or an existing fantasy map
-
-Then describing the world you imagine:
-
-> "A cold northern kingdom with ancient dragon ruins. A massive mountain range divides the continent. The capital is named Kingsfall."
-
-WorldWake interprets those ideas and begins constructing a believable fantasy world.
-
-Eventually that world becomes more than artwork.
-
-It becomes a simulation.
-
-Roads influence trade.
-
-Trade influences settlements.
-
-Settlements influence kingdoms.
-
-Kingdoms influence politics.
-
-Player actions influence everything.
-
-Every major change should be explainable through a visible chain of consequences.
-
----
-
-# Planned Features
-
-## 🌍 WorldSeed
-
-- Upload hand-drawn maps
-- Upload geographic boundaries
-- AI-assisted terrain generation
-- Fantasy map styling
-- Settlement placement
-- Rivers and road generation
-- Region creation
-- Interactive editing
-- Multiple generated world drafts
-- "Surprise Me" generation mode
-
----
-
-## 📜 Chronicle
-
-- Upload campaign notes
-- Extract locations and events
-- Reconstruct party travel
-- Build historical timelines
-- Detect ambiguous locations
-- Interactive event confirmation
-- Character and faction tracking
-
----
-
-## ⏳ WorldTurn
-
-- Advance fictional time
-- Simulate faction behavior
-- Resource production and consumption
-- Trade network simulation
-- Political changes
-- Military movement
-- Dynamic rumors
-- World consequence tracking
-- Fully explainable event ancestry
-
-Example:
-
-```text
-Food prices increased
-└── Grain shipments declined
-    └── Southern bridge collapsed
-        └── Players destroyed bridge during Session 8
-```
-
-The world remembers.
-
----
-
-# Technology Stack
-
-## Current
+## Technology
 
 - Python 3.12+
 - FastAPI
-- HTML
-- CSS
-- JavaScript
-
-## Planned
-
-- FastAPI
 - Pydantic
-- SQLAlchemy
-- PostgreSQL
-- NetworkX
-- Leaflet
-- Pytest
-- Docker
-- GitHub Actions
-- Amazon Web Services (AWS)
+- Pillow
+- HTML, CSS, and JavaScript
 
----
-
-# Repository Structure
-
-```text
-WorldWake/
-├── prototypes/
-│   └── consequence_engine.py
-├── src/
-│   └── worldwake/
-│       ├── static/
-│       ├── __init__.py
-│       └── main.py
-├── data/
-├── pyproject.toml
-├── README.md
-└── .gitignore
-```
-
----
-
-# Getting Started
-
-Clone the repository:
+## Running Locally
 
 ```bash
 git clone https://github.com/DevinZalace/WorldWake.git
 cd WorldWake
-```
 
-Create a virtual environment:
-
-```bash
 python3 -m venv .venv
-```
-
-Activate it:
-
-### Linux / macOS / WSL
-
-```bash
 source .venv/bin/activate
-```
 
-Install the project in editable mode:
-
-```bash
 python -m pip install --upgrade pip
 python -m pip install --editable .
-```
 
-Run the development server:
-
-```bash
 fastapi dev src/worldwake/main.py
 ```
 
-Open your browser:
+Open `http://127.0.0.1:8000` in your browser.
 
-```text
-http://127.0.0.1:8000
-```
+## API
 
----
+| Method | Endpoint | Purpose |
+|---|---|---|
+| `POST` | `/api/world-seeds` | Upload and validate a source image |
+| `GET` | `/api/world-seeds/{seed_id}` | Retrieve uploaded-image metadata |
+| `POST` | `/api/world-seeds/{seed_id}/generate` | Create a map-generation request |
+| `GET` | `/api/map-generations/{generation_id}` | Retrieve generation status |
 
-# Development Roadmap
+## Next Steps
 
-## Phase 1
-- [x] Initialize project
-- [x] Create FastAPI application
-- [x] Build first WorldSeed interface
-- [x] Local image preview
-- [ ] Upload image to backend
-- [ ] Save uploaded projects
-
-## Phase 2
-- [ ] Interpret uploaded maps
-- [ ] Generate structured world data
-- [ ] Place settlements
-- [ ] Generate terrain
-- [ ] Interactive editing
-
-## Phase 3
-- [ ] Chronicle campaign notes
-- [ ] Interactive timelines
-- [ ] Route reconstruction
-
-## Phase 4
-- [ ] World simulation
-- [ ] Faction AI
-- [ ] Resource economy
-- [ ] Consequence engine
-- [ ] Living atlas
-
----
-
-# Why WorldWake?
-
-Most campaign managers excel at storing information.
-
-WorldWake aims to answer a different question:
-
-> **What happened while the party was somewhere else?**
-
-By combining geography, history, simulation, and AI-assisted interpretation, WorldWake strives to become a living fantasy world that evolves alongside every campaign.
-
----
-
-# License
-
-License to be determined.
+- Connect the complete browser workflow to the backend
+- Build the first terrain-generation engine
+- Display and edit generated map results
