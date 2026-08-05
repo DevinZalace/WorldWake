@@ -1,58 +1,43 @@
 # WorldWake
 
-> Create a world. Chronicle its history. Watch it awaken.
+WorldWake is a campaign-world engine for tabletop RPGs.
 
-WorldWake is an early-stage fantasy world-generation project for tabletop RPGs and fictional settings.
+The idea began with a problem from my own campaigns: notes are good at recording what the players did, but not what happened elsewhere while they were traveling, resting, or ignoring a growing problem.
 
-Development currently focuses on **WorldSeed**, a FastAPI service that accepts map sketches or source images and prepares them for a future terrain-generation system.
+WorldWake is being built to remember the world between sessions. Roads can become unsafe, factions can gain resources, settlements can change, and those changes should have understandable causes.
 
-## Current Capabilities
+## Current state
 
-- Browser interface for selecting and previewing an image
-- Upload and validation of PNG, JPEG, WebP, and GIF images
-- Local storage of images and JSON metadata
-- Retrieval of previously uploaded world seeds
-- Creation and tracking of map-generation requests
-- Configurable world name, visual character, random seed, and land/sea inversion
+The current application includes:
 
-WorldWake does **not** generate finished maps yet. Generation requests are currently stored with an `awaiting_generator` status while the terrain engine is developed.
+- Account registration and login
+- Argon2id password hashing
+- Database-backed 30-day sessions
+- CSRF-protected account actions
+- Password changes with session rotation
+- Authentication rate limiting
+- A WorldSeed prototype for validating and storing uploaded map references
+- Automated tests for authentication, database behavior, and WorldSeed APIs
+
+WorldSeed does not generate finished maps yet. The current milestone establishes the account, upload, and persistence foundations that later map and campaign systems will use.
 
 ## Technology
 
-- Python 3.12+
+- Python 3.12
 - FastAPI
+- SQLAlchemy 2
+- Alembic
+- SQLite
 - Pydantic
 - Pillow
-- HTML, CSS, and JavaScript
+- Pytest
+- Vanilla JavaScript and CSS
 
-## Running Locally
+## Run locally
 
 ```bash
-git clone https://github.com/DevinZalace/WorldWake.git
-cd WorldWake
-
-python3 -m venv .venv
+python -m venv .venv
 source .venv/bin/activate
-
-python -m pip install --upgrade pip
-python -m pip install --editable .
-
+python -m pip install --editable ".[dev]"
+alembic upgrade head
 fastapi dev src/worldwake/main.py
-```
-
-Open `http://127.0.0.1:8000` in your browser.
-
-## API
-
-| Method | Endpoint | Purpose |
-|---|---|---|
-| `POST` | `/api/world-seeds` | Upload and validate a source image |
-| `GET` | `/api/world-seeds/{seed_id}` | Retrieve uploaded-image metadata |
-| `POST` | `/api/world-seeds/{seed_id}/generate` | Create a map-generation request |
-| `GET` | `/api/map-generations/{generation_id}` | Retrieve generation status |
-
-## Next Steps
-
-- Connect the complete browser workflow to the backend
-- Build the first terrain-generation engine
-- Display and edit generated map results
