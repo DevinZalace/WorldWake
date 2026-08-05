@@ -4,7 +4,7 @@ import os
 from collections.abc import Iterator
 from pathlib import Path
 
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, event
 from sqlalchemy.orm import Session, sessionmaker
 
 
@@ -33,6 +33,24 @@ engine = create_engine(
     DATABASE_URL,
     **ENGINE_OPTIONS,
 )
+
+if DATABASE_URL.startswith("sqlite"):
+
+    @event.listens_for(engine, "connect")
+    def enable_sqlite_foreign_keys(
+        dbapi_connection,
+        _connection_record,
+    ) -> None:
+        """Enforce declared foreign-key constraints in SQLite."""
+
+        previous_autocommit = dbapi_connection.autocommit
+        dbapi_connection.autocommit = True
+
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
+
+        dbapi_connection.autocommit = previous_autocommit
 
 
 SessionFactory = sessionmaker(
