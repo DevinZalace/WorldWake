@@ -5,6 +5,7 @@ from collections.abc import Iterator
 from pathlib import Path
 
 from sqlalchemy import create_engine, event
+from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
 
 
@@ -21,43 +22,51 @@ DATABASE_URL = os.getenv("DATABASE_URL") or DEFAULT_DATABASE_URL
 DATA_DIRECTORY.mkdir(parents=True, exist_ok=True)
 
 
-ENGINE_OPTIONS: dict[str, object] = {}
+def create_database_engine(database_url: str) -> Engine:
+    """Create a configured SQLAlchemy engine for a database URL."""
 
-if DATABASE_URL.startswith("sqlite"):
-    ENGINE_OPTIONS["connect_args"] = {
-        "check_same_thread": False,
-    }
+    engine_options: dict[str, object] = {}
+
+    if database_url.startswith("sqlite"):
+        engine_options["connect_args"] = {
+            "check_same_thread": False,
+        }
+
+    database_engine = create_engine(
+        database_url,
+        **engine_options,
+    )
+
+    if database_url.startswith("sqlite"):
+
+        @event.listens_for(database_engine, "connect")
+        def enable_sqlite_foreign_keys(
+            dbapi_connection,
+            _connection_record,
+        ) -> None:
+            """Enforce declared foreign-key constraints in SQLite."""
+
+            cursor = dbapi_connection.cursor()
+            cursor.execute("PRAGMA foreign_keys=ON")
+            cursor.close()
+
+    return database_engine
 
 
-engine = create_engine(
-    DATABASE_URL,
-    **ENGINE_OPTIONS,
-)
+def create_session_factory(
+    database_engine: Engine,
+) -> sessionmaker[Session]:
+    """Create consistently configured SQLAlchemy sessions."""
 
-if DATABASE_URL.startswith("sqlite"):
-
-    @event.listens_for(engine, "connect")
-    def enable_sqlite_foreign_keys(
-        dbapi_connection,
-        _connection_record,
-    ) -> None:
-        """Enforce declared foreign-key constraints in SQLite."""
-
-        previous_autocommit = dbapi_connection.autocommit
-        dbapi_connection.autocommit = True
-
-        cursor = dbapi_connection.cursor()
-        cursor.execute("PRAGMA foreign_keys=ON")
-        cursor.close()
-
-        dbapi_connection.autocommit = previous_autocommit
+    return sessionmaker(
+        bind=database_engine,
+        autoflush=False,
+        expire_on_commit=False,
+    )
 
 
-SessionFactory = sessionmaker(
-    bind=engine,
-    autoflush=False,
-    expire_on_commit=False,
-)
+engine = create_database_engine(DATABASE_URL)
+SessionFactory = create_session_factory(engine)
 
 
 def get_database_session() -> Iterator[Session]:
