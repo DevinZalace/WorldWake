@@ -532,3 +532,260 @@ h1 span {
         transition: none;
     }
 }
+
+/* Account navigation and authentication dialog. */
+
+.page-header {
+    flex-wrap: wrap;
+    max-width: none;
+}
+
+.account-nav {
+    min-width: 250px;
+    margin-left: auto;
+    text-align: right;
+}
+
+.account-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.signed-in-controls {
+    flex-wrap: wrap;
+}
+
+.account-identity {
+    width: 100%;
+    margin: 0 0 4px;
+    color: rgba(240, 230, 202, 0.74);
+    font-size: 0.82rem;
+}
+
+.account-identity strong {
+    color: var(--parchment);
+    font-weight: normal;
+}
+
+.account-button,
+.auth-submit {
+    border: 1px solid rgba(216, 201, 165, 0.52);
+    border-radius: 999px;
+    color: var(--night);
+    background: var(--parchment);
+    cursor: pointer;
+    transition:
+        transform 150ms ease,
+        background 150ms ease,
+        border-color 150ms ease;
+}
+
+.account-button {
+    padding: 9px 15px;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+}
+
+.account-button-ghost {
+    color: var(--parchment);
+    background: rgba(16, 23, 18, 0.45);
+}
+
+.account-button:hover,
+.auth-submit:hover {
+    border-color: var(--moon);
+    background: var(--moon);
+    transform: translateY(-1px);
+}
+
+.account-button-ghost:hover {
+    color: var(--night);
+}
+
+.account-button:disabled,
+.auth-submit:disabled {
+    cursor: wait;
+    opacity: 0.58;
+    transform: none;
+}
+
+.account-message {
+    min-height: 1.2em;
+    margin: 8px 0 0;
+    color: #b7bf98;
+    font-size: 0.75rem;
+}
+
+.account-message[data-tone="error"] {
+    color: #e0a27d;
+}
+
+.auth-dialog {
+    width: min(500px, calc(100% - 28px));
+    max-height: calc(100vh - 40px);
+    padding: 0;
+    overflow: auto;
+    border: 0;
+    color: var(--moon);
+    background: transparent;
+}
+
+.auth-dialog::backdrop {
+    background: rgba(7, 11, 8, 0.82);
+    backdrop-filter: blur(5px);
+}
+
+.auth-dialog-card {
+    position: relative;
+    padding: 38px;
+    border: 1px solid rgba(216, 201, 165, 0.48);
+    border-radius: 4px;
+    background:
+        radial-gradient(
+            circle at top right,
+            rgba(199, 121, 63, 0.12),
+            transparent 16rem
+        ),
+        var(--night-soft);
+    box-shadow:
+        0 28px 80px rgba(0, 0, 0, 0.5),
+        inset 0 0 0 5px rgba(216, 201, 165, 0.025);
+}
+
+.auth-dialog-card h2 {
+    margin: 6px 38px 10px 0;
+    color: var(--moon);
+    font-size: clamp(1.8rem, 6vw, 2.6rem);
+    font-weight: normal;
+}
+
+.auth-dialog-introduction {
+    margin: 0 0 24px;
+    color: rgba(240, 230, 202, 0.68);
+    line-height: 1.55;
+}
+
+.dialog-close {
+    position: absolute;
+    top: 16px;
+    right: 18px;
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    border: 1px solid rgba(216, 201, 165, 0.3);
+    border-radius: 50%;
+    color: var(--parchment);
+    background: transparent;
+    cursor: pointer;
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.dialog-close:hover {
+    color: var(--night);
+    background: var(--parchment);
+}
+
+.auth-form {
+    display: grid;
+    gap: 17px;
+}
+
+.auth-form[hidden],
+.auth-switch[hidden] {
+    display: none;
+}
+
+.auth-field {
+    display: grid;
+    gap: 7px;
+    color: var(--parchment);
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+}
+
+.auth-field input {
+    width: 100%;
+    padding: 12px 13px;
+    border: 1px solid rgba(216, 201, 165, 0.35);
+    border-radius: 3px;
+    outline: none;
+    color: var(--moon);
+    background: rgba(7, 11, 8, 0.48);
+}
+
+.auth-field input:focus {
+    border-color: var(--ember);
+    box-shadow: 0 0 0 3px rgba(199, 121, 63, 0.14);
+}
+
+.auth-submit {
+    justify-self: start;
+    margin-top: 4px;
+    padding: 11px 22px;
+}
+
+.password-note {
+    margin: -7px 0 0;
+    color: rgba(240, 230, 202, 0.55);
+    font-size: 0.76rem;
+    line-height: 1.45;
+}
+
+.auth-status {
+    min-height: 1.3em;
+    margin: -8px 0 17px;
+    color: #b7bf98;
+    font-size: 0.82rem;
+    line-height: 1.45;
+}
+
+.auth-status[data-tone="error"] {
+    color: #e0a27d;
+}
+
+.auth-switch {
+    margin-top: 25px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(216, 201, 165, 0.16);
+    color: rgba(240, 230, 202, 0.62);
+    font-size: 0.82rem;
+}
+
+.auth-switch button {
+    padding: 0;
+    border: 0;
+    color: var(--ember);
+    background: transparent;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+    .account-nav {
+        width: 100%;
+        margin-left: 0;
+        text-align: left;
+    }
+
+    .account-actions {
+        justify-content: flex-start;
+    }
+
+    .account-identity {
+        text-align: left;
+    }
+}
+
+@media (max-width: 460px) {
+    .auth-dialog-card {
+        padding: 30px 22px;
+    }
+
+    .account-actions {
+        align-items: flex-start;
+    }
+}

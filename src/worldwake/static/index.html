@@ -34,6 +34,62 @@
                     We&rsquo;ll find the world sleeping inside it.
                 </p>
             </div>
+            <nav class="account-nav" aria-label="Account">
+            <div
+                 id="signed-out-controls"
+                class="account-actions"
+            >
+            <button
+            id="open-login"
+            class="account-button account-button-ghost"
+            type="button"
+        >
+            Sign in
+        </button>
+
+        <button
+            id="open-register"
+            class="account-button"
+            type="button"
+        >
+            Create account
+        </button>
+    </div>
+
+    <div
+        id="signed-in-controls"
+        class="account-actions signed-in-controls"
+        hidden
+    >
+        <p class="account-identity">
+            Signed in as
+            <strong id="account-username"></strong>
+        </p>
+
+        <button
+            id="open-account"
+            class="account-button account-button-ghost"
+            type="button"
+        >
+            Account
+        </button>
+
+        <button
+            id="logout-button"
+            class="account-button"
+            type="button"
+        >
+            Sign out
+        </button>
+    </div>
+
+    <p
+        id="account-message"
+        class="account-message"
+        role="status"
+        aria-live="polite"
+    ></p>
+</nav>    
         </header>
 
         <div class="chapter-rule" aria-hidden="true">
@@ -101,6 +157,197 @@
                 </p>
             </div>
         </section>
+        <dialog
+    id="auth-dialog"
+    class="auth-dialog"
+    aria-labelledby="auth-dialog-title"
+>
+    <section class="auth-dialog-card">
+        <button
+            id="close-auth-dialog"
+            class="dialog-close"
+            type="button"
+            aria-label="Close account window"
+        >
+            ×
+        </button>
+
+        <p class="step-label">The keeper of worlds</p>
+
+        <h2 id="auth-dialog-title">
+            Return to WorldWake
+        </h2>
+
+        <p
+            id="auth-dialog-introduction"
+            class="auth-dialog-introduction"
+        >
+            Sign in to continue shaping your worlds.
+        </p>
+
+        <p
+            id="auth-status"
+            class="auth-status"
+            role="status"
+            aria-live="polite"
+        ></p>
+
+        <form
+            id="login-form"
+            class="auth-form"
+        >
+            <label class="auth-field">
+                <span>Username or email</span>
+                <input
+                    name="identifier"
+                    type="text"
+                    autocomplete="username"
+                    maxlength="320"
+                    required
+                >
+            </label>
+
+            <label class="auth-field">
+                <span>Password</span>
+                <input
+                    name="password"
+                    type="password"
+                    autocomplete="current-password"
+                    maxlength="128"
+                    required
+                >
+            </label>
+
+            <button
+                class="auth-submit"
+                type="submit"
+            >
+                Sign in
+            </button>
+        </form>
+
+        <form
+            id="register-form"
+            class="auth-form"
+            hidden
+        >
+            <label class="auth-field">
+                <span>Username</span>
+                <input
+                    name="username"
+                    type="text"
+                    autocomplete="username"
+                    minlength="3"
+                    maxlength="30"
+                    required
+                >
+            </label>
+
+            <label class="auth-field">
+                <span>Email</span>
+                <input
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="320"
+                    required
+                >
+            </label>
+
+            <label class="auth-field">
+                <span>Password</span>
+                <input
+                    name="password"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="10"
+                    maxlength="128"
+                    required
+                >
+            </label>
+
+            <p class="password-note">
+                Use between 10 and 128 characters.
+            </p>
+
+            <button
+                class="auth-submit"
+                type="submit"
+            >
+                Create account
+            </button>
+        </form>
+
+        <form
+            id="change-password-form"
+            class="auth-form"
+            hidden
+        >
+            <label class="auth-field">
+                <span>Current password</span>
+                <input
+                    name="current_password"
+                    type="password"
+                    autocomplete="current-password"
+                    maxlength="128"
+                    required
+                >
+            </label>
+
+            <label class="auth-field">
+                <span>New password</span>
+                <input
+                    name="new_password"
+                    type="password"
+                    autocomplete="new-password"
+                    minlength="10"
+                    maxlength="128"
+                    required
+                >
+            </label>
+
+            <p class="password-note">
+                Changing your password signs out every other session.
+            </p>
+
+            <button
+                class="auth-submit"
+                type="submit"
+            >
+                Change password
+            </button>
+        </form>
+
+        <div
+            class="auth-switch"
+            data-auth-switch="login"
+        >
+            New to WorldWake?
+
+            <button
+                type="button"
+                data-auth-target="register"
+            >
+                Create an account
+            </button>
+        </div>
+
+        <div
+            class="auth-switch"
+            data-auth-switch="register"
+            hidden
+        >
+            Already have an account?
+
+            <button
+                type="button"
+                data-auth-target="login"
+            >
+                Sign in
+            </button>
+        </div>
+    </section>
+</dialog>
     </main>
 </body>
 </html>
