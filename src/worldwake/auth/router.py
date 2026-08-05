@@ -7,6 +7,7 @@ from fastapi import (
     HTTPException,
     Response,
     status,
+    Request,
 )
 
 from worldwake.auth.cookies import (
@@ -52,6 +53,13 @@ from worldwake.auth.dependencies import (
     DatabaseSession,
 )
 
+from worldwake.auth.rate_limits import (
+    AuthRateLimiter,
+    RateLimitExceeded,
+    build_rate_limit_http_exception,
+    enforce_login_rate_limit,
+    enforce_registration_rate_limit,
+)
 
 @router.post(
     "/register",
@@ -61,9 +69,21 @@ from worldwake.auth.dependencies import (
 def register_account(
     registration: RegisterRequest,
     response: Response,
+    request: Request,
     database_session: DatabaseSession,
+    rate_limiter: AuthRateLimiter,
 ) -> UserResponse:
     """Create an account and sign in the new user."""
+
+    try:
+        enforce_registration_rate_limit(
+            request,
+            rate_limiter,
+        )
+    except RateLimitExceeded as error:
+        raise build_rate_limit_http_exception(
+            error
+        ) from error
 
     try:
         user = register_user(
@@ -94,9 +114,24 @@ def register_account(
 def login_account(
     login: LoginRequest,
     response: Response,
+    request: Request,
     database_session: DatabaseSession,
+    rate_limiter: AuthRateLimiter,
 ) -> UserResponse:
     """Authenticate an account and create a browser session."""
+
+    try:
+        identifier_limit_key = (
+            enforce_login_rate_limit(
+                request,
+                login.identifier,
+                rate_limiter,
+            )
+        )
+    except RateLimitExceeded as error:
+        raise build_rate_limit_http_exception(
+            error
+        ) from error
 
     try:
         user = authenticate_user(
@@ -113,7 +148,9 @@ def login_account(
         database_session,
         user,
     )
-
+    rate_limiter.clear(
+        identifier_limit_key
+    )
     set_authentication_cookies(
         response,
         issued_session,

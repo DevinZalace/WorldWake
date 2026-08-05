@@ -63,6 +63,19 @@ from worldwake.auth.cookies import (
     set_authentication_cookies,
 )
 
+from worldwake.auth.rate_limits import (
+    LOGIN_IDENTIFIER_LIMIT,
+    LOGIN_IP_LIMIT,
+    LOGIN_WINDOW_SECONDS,
+    RATE_LIMIT_MESSAGE,
+    REGISTER_IP_LIMIT,
+    REGISTER_WINDOW_SECONDS,
+    AuthRateLimiter,
+    InMemoryRateLimiter,
+    RateLimitExceeded,
+    get_auth_rate_limiter,
+)
+
 
 __all__ = [
     "MAX_PASSWORD_LENGTH",
@@ -110,4 +123,14 @@ __all__ = [
     "INCORRECT_CURRENT_PASSWORD_MESSAGE",
     "IncorrectCurrentPasswordError",
     "change_user_password",
+    "LOGIN_IDENTIFIER_LIMIT",
+    "LOGIN_IP_LIMIT",
+    "LOGIN_WINDOW_SECONDS",
+    "RATE_LIMIT_MESSAGE",
+    "REGISTER_IP_LIMIT",
+    "REGISTER_WINDOW_SECONDS",
+    "AuthRateLimiter",
+    "InMemoryRateLimiter",
+    "RateLimitExceeded",
+    "get_auth_rate_limiter",
 ]

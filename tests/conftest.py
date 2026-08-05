@@ -17,6 +17,11 @@ from worldwake.database import (
 )
 from worldwake.models import Base
 
+from worldwake.auth.rate_limits import (
+    InMemoryRateLimiter,
+    get_auth_rate_limiter,
+)
+
 
 
 @pytest.fixture
@@ -69,6 +74,8 @@ def api_client(
 ) -> Iterator[TestClient]:
     """Run the FastAPI application against a temporary database."""
 
+    test_rate_limiter = InMemoryRateLimiter()
+
     def override_database_session() -> Iterator[Session]:
         session = test_session_factory()
 
@@ -84,6 +91,9 @@ def api_client(
     app.dependency_overrides[
         get_database_session
     ] = override_database_session
+    app.dependency_overrides[
+        get_auth_rate_limiter
+    ] = lambda: test_rate_limiter
 
     try:
         with TestClient(app) as client:
@@ -91,5 +101,9 @@ def api_client(
     finally:
         app.dependency_overrides.pop(
             get_database_session,
+            None,
+        )
+        app.dependency_overrides.pop(
+            get_auth_rate_limiter,
             None,
         )
