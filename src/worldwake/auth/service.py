@@ -35,6 +35,10 @@ _DUMMY_PASSWORD_HASH = hash_password(
     "WorldWakeTimingEqualizer42"
 )
 
+INCORRECT_CURRENT_PASSWORD_MESSAGE = (
+    "Current password is incorrect."
+)
+
 
 class AccountConflictError(Exception):
     """Raised when registration conflicts with an existing account."""
@@ -42,6 +46,8 @@ class AccountConflictError(Exception):
 class InvalidCredentialsError(Exception):
     """Raised when login credentials cannot be authenticated."""
 
+class IncorrectCurrentPasswordError(Exception):
+    """Raised when an authenticated user supplies the wrong password."""
 
 def register_user(
     database_session: Session,
@@ -173,3 +179,25 @@ def authenticate_user(
         database_session.flush()
 
     return user
+
+def change_user_password(
+    database_session: Session,
+    user: User,
+    current_password: str,
+    new_password: str,
+) -> None:
+    """Verify and replace a user's password without committing."""
+
+    if not verify_password(
+        user.password_hash,
+        current_password,
+    ):
+        raise IncorrectCurrentPasswordError(
+            INCORRECT_CURRENT_PASSWORD_MESSAGE
+        )
+
+    user.password_hash = hash_password(
+        new_password
+    )
+
+    database_session.flush()

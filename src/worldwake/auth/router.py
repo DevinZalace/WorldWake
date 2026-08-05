@@ -18,19 +18,24 @@ from worldwake.auth.schemas import (
     LoginRequest,
     RegisterRequest,
     UserResponse,
+    ChangePasswordRequest,
 )
 
 from worldwake.auth.service import (
     ACCOUNT_CONFLICT_MESSAGE,
+    INCORRECT_CURRENT_PASSWORD_MESSAGE,
     INVALID_CREDENTIALS_MESSAGE,
     AccountConflictError,
+    IncorrectCurrentPasswordError,
     InvalidCredentialsError,
     authenticate_user,
+    change_user_password,
     register_user,
 )
 
 from worldwake.auth.sessions import (
     create_auth_session,
+    revoke_all_auth_sessions,
     revoke_auth_session,
 )
 
@@ -129,6 +134,50 @@ def logout_account(
     revoke_auth_session(auth_session)
 
     clear_authentication_cookies(response)
+
+@router.post(
+    "/change-password",
+    response_model=UserResponse,
+)
+def change_password(
+    request: ChangePasswordRequest,
+    response: Response,
+    auth_session: CsrfProtectedSession,
+    database_session: DatabaseSession,
+) -> UserResponse:
+    """Replace a password and invalidate every existing session."""
+
+    user = auth_session.user
+
+    try:
+        change_user_password(
+            database_session,
+            user,
+            request.current_password.get_secret_value(),
+            request.new_password.get_secret_value(),
+        )
+    except IncorrectCurrentPasswordError as error:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=INCORRECT_CURRENT_PASSWORD_MESSAGE,
+        ) from error
+
+    revoke_all_auth_sessions(
+        database_session,
+        user.id,
+    )
+
+    fresh_session = create_auth_session(
+        database_session,
+        user,
+    )
+
+    set_authentication_cookies(
+        response,
+        fresh_session,
+    )
+
+    return UserResponse.model_validate(user)    
 
 @router.get(
     "/me",

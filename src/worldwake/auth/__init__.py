@@ -35,6 +35,9 @@ from worldwake.auth.service import (
     authenticate_user,
     find_user_by_identifier,
     register_user,
+    INCORRECT_CURRENT_PASSWORD_MESSAGE,
+    IncorrectCurrentPasswordError,
+    change_user_password,
 )
 
 from worldwake.auth.sessions import (
@@ -47,6 +50,7 @@ from worldwake.auth.sessions import (
     generate_opaque_token,
     hash_token,
     revoke_auth_session,
+    revoke_all_auth_sessions,
 )
 
 from worldwake.auth.cookies import (
@@ -102,4 +106,8 @@ __all__ = [
     "find_user_by_identifier",
     "clear_authentication_cookies",
     "revoke_auth_session",
+    "revoke_all_auth_sessions",
+    "INCORRECT_CURRENT_PASSWORD_MESSAGE",
+    "IncorrectCurrentPasswordError",
+    "change_user_password",
 ]

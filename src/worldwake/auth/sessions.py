@@ -4,6 +4,7 @@ import secrets
 from dataclasses import dataclass
 from datetime import UTC, datetime, timedelta
 from hashlib import sha256
+from uuid import UUID
 
 from sqlalchemy.orm import Session
 from worldwake.models import AuthSession, User
@@ -96,6 +97,32 @@ def revoke_auth_session(
     auth_session.revoked_at = ensure_utc(
         now or datetime.now(UTC)
     )
+
+def revoke_all_auth_sessions(
+    database_session: Session,
+    user_id: UUID,
+    *,
+    now: datetime | None = None,
+) -> int:
+    """Revoke every currently active session belonging to a user."""
+
+    revocation_time = ensure_utc(
+        now or datetime.now(UTC)
+    )
+
+    active_sessions = database_session.scalars(
+        select(AuthSession).where(
+            AuthSession.user_id == user_id,
+            AuthSession.revoked_at.is_(None),
+        )
+    ).all()
+
+    for auth_session in active_sessions:
+        auth_session.revoked_at = revocation_time
+
+    database_session.flush()
+
+    return len(active_sessions)
 
 def create_auth_session(
     database_session: Session,

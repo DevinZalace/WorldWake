@@ -13,6 +13,7 @@ from worldwake.auth import (
     hash_token,
     register_user,
     revoke_auth_session,
+    revoke_all_auth_sessions,
 )
 from worldwake.models import AuthSession
 
@@ -189,3 +190,45 @@ def test_revoke_auth_session_records_revocation_time(
         issued_session.record.revoked_at
         == revocation_time
     )
+
+def test_revoke_all_auth_sessions_marks_every_active_session(
+    database_session: Session,
+) -> None:
+    """Password changes should revoke every browser session."""
+
+    user = create_test_user(database_session)
+
+    first_session = create_auth_session(
+        database_session,
+        user,
+    )
+    second_session = create_auth_session(
+        database_session,
+        user,
+    )
+
+    revocation_time = datetime(
+        2026,
+        8,
+        5,
+        22,
+        0,
+        tzinfo=UTC,
+    )
+
+    revoked_count = revoke_all_auth_sessions(
+        database_session,
+        user.id,
+        now=revocation_time,
+    )
+
+    assert revoked_count == 2
+
+    assert (
+        first_session.record.revoked_at
+        == revocation_time
+    )
+    assert (
+        second_session.record.revoked_at
+        == revocation_time
+    )    
