@@ -41,6 +41,14 @@ from worldwake.auth.sessions import (
     hash_token,
 )
 
+from worldwake.auth.cookies import (
+    COOKIE_MAX_AGE_SECONDS,
+    CSRF_COOKIE_NAME,
+    SESSION_COOKIE_NAME,
+    secure_cookies_enabled,
+    set_authentication_cookies,
+)
+
 
 __all__ = [
     "MAX_PASSWORD_LENGTH",
@@ -69,4 +77,9 @@ __all__ = [
     "create_auth_session",
     "generate_opaque_token",
     "hash_token",
+    "COOKIE_MAX_AGE_SECONDS",
+    "CSRF_COOKIE_NAME",
+    "SESSION_COOKIE_NAME",
+    "secure_cookies_enabled",
+    "set_authentication_cookies",
 ]

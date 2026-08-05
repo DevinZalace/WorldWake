@@ -6,12 +6,17 @@ from pathlib import Path
 import pytest
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import Session, sessionmaker
+from fastapi.testclient import TestClient
+
+from worldwake.database import get_database_session
+from worldwake.main import app
 
 from worldwake.database import (
     create_database_engine,
     create_session_factory,
 )
 from worldwake.models import Base
+
 
 
 @pytest.fixture
@@ -57,3 +62,34 @@ def database_session(
     finally:
         session.rollback()
         session.close()
+
+@pytest.fixture
+def api_client(
+    test_session_factory: sessionmaker[Session],
+) -> Iterator[TestClient]:
+    """Run the FastAPI application against a temporary database."""
+
+    def override_database_session() -> Iterator[Session]:
+        session = test_session_factory()
+
+        try:
+            yield session
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
+    app.dependency_overrides[
+        get_database_session
+    ] = override_database_session
+
+    try:
+        with TestClient(app) as client:
+            yield client
+    finally:
+        app.dependency_overrides.pop(
+            get_database_session,
+            None,
+        )
