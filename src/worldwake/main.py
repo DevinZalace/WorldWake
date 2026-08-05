@@ -12,6 +12,13 @@ from fastapi.staticfiles import StaticFiles
 
 from worldwake.world_seed import router as world_seed_router
 
+from worldwake.api_errors import install_error_handlers
+
+
+from worldwake.auth.router import (
+    router as auth_router,
+)
+
 
 # Resolve the package and static asset directories from this module location.
 PACKAGE_DIRECTORY = Path(__file__).resolve().parent
@@ -25,7 +32,10 @@ app = FastAPI(
     version="0.1.0",
 )
 
+install_error_handlers(app)
+
 # Register the API endpoints that manage world seeds and generation requests.
+app.include_router(auth_router)
 app.include_router(world_seed_router)
 
 
