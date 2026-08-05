@@ -26,6 +26,12 @@ from worldwake.auth.schemas import (
     UserResponse,
 )
 
+from worldwake.auth.service import (
+    ACCOUNT_CONFLICT_MESSAGE,
+    AccountConflictError,
+    register_user,
+)
+
 
 __all__ = [
     "MAX_PASSWORD_LENGTH",
@@ -45,4 +51,7 @@ __all__ = [
     "LoginRequest",
     "RegisterRequest",
     "UserResponse",
+    "ACCOUNT_CONFLICT_MESSAGE",
+    "AccountConflictError",
+    "register_user",
 ]
