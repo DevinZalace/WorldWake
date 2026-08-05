@@ -32,6 +32,15 @@ from worldwake.auth.service import (
     register_user,
 )
 
+from worldwake.auth.sessions import (
+    SESSION_LIFETIME,
+    TOKEN_ENTROPY_BYTES,
+    IssuedAuthSession,
+    create_auth_session,
+    generate_opaque_token,
+    hash_token,
+)
+
 
 __all__ = [
     "MAX_PASSWORD_LENGTH",
@@ -54,4 +63,10 @@ __all__ = [
     "ACCOUNT_CONFLICT_MESSAGE",
     "AccountConflictError",
     "register_user",
+    "SESSION_LIFETIME",
+    "TOKEN_ENTROPY_BYTES",
+    "IssuedAuthSession",
+    "create_auth_session",
+    "generate_opaque_token",
+    "hash_token",
 ]
