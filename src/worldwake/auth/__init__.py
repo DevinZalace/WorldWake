@@ -19,6 +19,13 @@ from worldwake.auth.identities import (
     prepare_username,
 )
 
+from worldwake.auth.schemas import (
+    ChangePasswordRequest,
+    LoginRequest,
+    RegisterRequest,
+    UserResponse,
+)
+
 
 __all__ = [
     "MAX_PASSWORD_LENGTH",
@@ -34,4 +41,8 @@ __all__ = [
     "PreparedIdentity",
     "prepare_email",
     "prepare_username",
+    "ChangePasswordRequest",
+    "LoginRequest",
+    "RegisterRequest",
+    "UserResponse",
 ]
