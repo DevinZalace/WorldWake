@@ -86,6 +86,17 @@ def find_active_auth_session(
 
     return auth_session
 
+def revoke_auth_session(
+    auth_session: AuthSession,
+    *,
+    now: datetime | None = None,
+) -> None:
+    """Mark an authentication session as permanently revoked."""
+
+    auth_session.revoked_at = ensure_utc(
+        now or datetime.now(UTC)
+    )
+
 def create_auth_session(
     database_session: Session,
     user: User,

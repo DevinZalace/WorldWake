@@ -9,15 +9,17 @@ from fastapi import (
     status,
 )
 
-
 from worldwake.auth.cookies import (
+    clear_authentication_cookies,
     set_authentication_cookies,
 )
+
 from worldwake.auth.schemas import (
     LoginRequest,
     RegisterRequest,
     UserResponse,
 )
+
 from worldwake.auth.service import (
     ACCOUNT_CONFLICT_MESSAGE,
     INVALID_CREDENTIALS_MESSAGE,
@@ -26,7 +28,11 @@ from worldwake.auth.service import (
     authenticate_user,
     register_user,
 )
-from worldwake.auth.sessions import create_auth_session
+
+from worldwake.auth.sessions import (
+    create_auth_session,
+    revoke_auth_session,
+)
 
 
 
@@ -36,6 +42,7 @@ router = APIRouter(
 )
 
 from worldwake.auth.dependencies import (
+    CsrfProtectedSession,
     CurrentUser,
     DatabaseSession,
 )
@@ -108,6 +115,20 @@ def login_account(
     )
 
     return UserResponse.model_validate(user)
+
+@router.post(
+    "/logout",
+    status_code=status.HTTP_204_NO_CONTENT,
+)
+def logout_account(
+    response: Response,
+    auth_session: CsrfProtectedSession,
+) -> None:
+    """Revoke the current browser session and clear its cookies."""
+
+    revoke_auth_session(auth_session)
+
+    clear_authentication_cookies(response)
 
 @router.get(
     "/me",

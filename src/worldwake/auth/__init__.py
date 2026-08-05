@@ -42,16 +42,19 @@ from worldwake.auth.sessions import (
     TOKEN_ENTROPY_BYTES,
     IssuedAuthSession,
     create_auth_session,
-    generate_opaque_token,
-    hash_token,
     ensure_utc,
     find_active_auth_session,
+    generate_opaque_token,
+    hash_token,
+    revoke_auth_session,
 )
 
 from worldwake.auth.cookies import (
     COOKIE_MAX_AGE_SECONDS,
     CSRF_COOKIE_NAME,
+    CSRF_HEADER_NAME,
     SESSION_COOKIE_NAME,
+    clear_authentication_cookies,
     secure_cookies_enabled,
     set_authentication_cookies,
 )
@@ -87,6 +90,7 @@ __all__ = [
     "hash_token",
     "COOKIE_MAX_AGE_SECONDS",
     "CSRF_COOKIE_NAME",
+    "CSRF_HEADER_NAME",
     "SESSION_COOKIE_NAME",
     "secure_cookies_enabled",
     "set_authentication_cookies",
@@ -96,4 +100,6 @@ __all__ = [
     "InvalidCredentialsError",
     "authenticate_user",
     "find_user_by_identifier",
+    "clear_authentication_cookies",
+    "revoke_auth_session",
 ]

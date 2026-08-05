@@ -12,6 +12,7 @@ from worldwake.auth.sessions import (
 
 SESSION_COOKIE_NAME = "ww_session"
 CSRF_COOKIE_NAME = "ww_csrf"
+CSRF_HEADER_NAME = "X-CSRF-Token"
 
 COOKIE_PATH = "/"
 COOKIE_SAME_SITE = "lax"
@@ -70,4 +71,19 @@ def set_authentication_cookies(
         secure=cookie_secure,
         httponly=False,
         samesite=COOKIE_SAME_SITE,
+    )
+
+def clear_authentication_cookies(
+    response: Response,
+) -> None:
+    """Remove WorldWake authentication cookies from a browser."""
+
+    response.delete_cookie(
+        key=SESSION_COOKIE_NAME,
+        path=COOKIE_PATH,
+    )
+
+    response.delete_cookie(
+        key=CSRF_COOKIE_NAME,
+        path=COOKIE_PATH,
     )

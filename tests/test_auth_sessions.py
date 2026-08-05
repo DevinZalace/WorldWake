@@ -12,6 +12,7 @@ from worldwake.auth import (
     create_auth_session,
     hash_token,
     register_user,
+    revoke_auth_session,
 )
 from worldwake.models import AuthSession
 
@@ -157,3 +158,34 @@ def test_create_auth_session_does_not_commit(
     )
 
     assert stored_session is None
+
+def test_revoke_auth_session_records_revocation_time(
+    database_session: Session,
+) -> None:
+    """Revoking a session should permanently mark its record."""
+
+    user = create_test_user(database_session)
+
+    issued_session = create_auth_session(
+        database_session,
+        user,
+    )
+
+    revocation_time = datetime(
+        2026,
+        8,
+        5,
+        21,
+        30,
+        tzinfo=UTC,
+    )
+
+    revoke_auth_session(
+        issued_session.record,
+        now=revocation_time,
+    )
+
+    assert (
+        issued_session.record.revoked_at
+        == revocation_time
+    )
