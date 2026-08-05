@@ -1,353 +1,315 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>WorldSeed | WorldWake</title>
-
-    <link rel="stylesheet" href="/static/styles.css">
-    <script src="/static/app.js" defer></script>
-</head>
-
-<body>
-    <main class="page-shell">
-        <!-- Decorative stars frame the page and give the interface a ritual feel. -->
-        <div class="constellation constellation-one" aria-hidden="true"></div>
-        <div class="constellation constellation-two" aria-hidden="true"></div>
-
-        <!-- The header introduces the world-building concept before the upload area. -->
-        <header class="page-header">
-            <div class="brand-mark" aria-hidden="true">
-                <span>W</span>
-            </div>
-
-            <div>
-                <p class="eyebrow">An instrument of WorldWake</p>
-                <h1>World<span>Seed</span></h1>
-
-                <p class="introduction">
-                    Bring a shape from the edge of your imagination.
-                    We&rsquo;ll find the world sleeping inside it.
-                </p>
-            </div>
-            <nav class="account-nav" aria-label="Account">
-            <div
-                 id="signed-out-controls"
-                class="account-actions"
-            >
-            <button
-            id="open-login"
-            class="account-button account-button-ghost"
-            type="button"
+    <head>
+        <meta charset="UTF-8">
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
         >
-            Sign in
-        </button>
 
-        <button
-            id="open-register"
-            class="account-button"
-            type="button"
-        >
-            Create account
-        </button>
-    </div>
+        <title>WorldSeed | WorldWake</title>
 
-    <div
-        id="signed-in-controls"
-        class="account-actions signed-in-controls"
-        hidden
-    >
-        <p class="account-identity">
-            Signed in as
-            <strong id="account-username"></strong>
-        </p>
+        <link rel="stylesheet" href="/static/styles.css">
+        <script src="/static/app.js" defer></script>
+    </head>
 
-        <button
-            id="open-account"
-            class="account-button account-button-ghost"
-            type="button"
-        >
-            Account
-        </button>
+    <body>
+        <main class="page-shell">
+            <!-- Decorative stars frame the page and give the interface a ritual feel. -->
+            <div class="constellation constellation-one" aria-hidden="true"></div>
+            <div class="constellation constellation-two" aria-hidden="true"></div>
 
-        <button
-            id="logout-button"
-            class="account-button"
-            type="button"
-        >
-            Sign out
-        </button>
-    </div>
-
-    <p
-        id="account-message"
-        class="account-message"
-        role="status"
-        aria-live="polite"
-    ></p>
-</nav>    
-        </header>
-
-        <div class="chapter-rule" aria-hidden="true">
-            <span></span>
-            <b>✦</b>
-            <span></span>
-        </div>
-
-        <!-- The workspace is split into an upload panel and a preview panel. -->
-        <section class="seed-workspace">
-            <div class="upload-panel">
-                <p class="step-label">The first rite</p>
-                <h2>Offer a shape</h2>
-
-                <p class="instructions">
-                    A coastline from a notebook. An old county line. A stain
-                    from this morning&rsquo;s tea. Any shape can hold a world.
-                </p>
-
-                <label class="drop-zone" for="seed-image">
-                    <span class="drop-rune" aria-hidden="true">⌁</span>
-                    <span class="drop-title">Lay your image here</span>
-                    <span class="drop-subtitle">or choose one from your collection</span>
-                </label>
-
-                <input
-                    id="seed-image"
-                    type="file"
-                    accept="image/*"
-                >
-
-                <p id="file-name" class="file-name">
-                    The table is empty.
-                </p>
-
-                <aside class="field-note">
-                    <span>Field note № 01</span>
-                    <p>Rough marks are welcome. Worlds rarely begin neatly.</p>
-                </aside>
-            </div>
-
-            <div class="preview-panel">
-                <div class="map-corner corner-top-left" aria-hidden="true"></div>
-                <div class="map-corner corner-top-right" aria-hidden="true"></div>
-                <div class="map-corner corner-bottom-left" aria-hidden="true"></div>
-                <div class="map-corner corner-bottom-right" aria-hidden="true"></div>
-
-                <img
-                    id="image-preview"
-                    alt="Preview of the selected world seed"
-                    hidden
-                >
-
-                <div id="preview-message" class="preview-message">
-                    <div class="compass" aria-hidden="true">
-                        <span>N</span>
-                        <i></i>
-                    </div>
-                    <p>No country has taken shape&hellip; yet.</p>
-                    <small>Your unexplored world will appear on this parchment.</small>
+            <!-- The header introduces the world-building concept before the upload area. -->
+            <header class="page-header">
+                <div class="brand-mark" aria-hidden="true">
+                    <span>W</span>
                 </div>
 
-                <p class="map-caption" aria-hidden="true">
-                    Charted in the WorldWake atelier
-                </p>
+                <div>
+                    <p class="eyebrow">An instrument of WorldWake</p>
+                    <h1>World<span>Seed</span></h1>
+
+                    <p class="introduction">
+                        Bring a shape from the edge of your imagination.
+                        We&rsquo;ll find the world sleeping inside it.
+                    </p>
+                </div>
+
+                <nav class="account-nav" aria-label="Account">
+                    <div id="signed-out-controls" class="account-actions">
+                        <button
+                            id="open-login"
+                            class="account-button account-button-ghost"
+                            type="button"
+                        >
+                            Sign in
+                        </button>
+
+                        <button
+                            id="open-register"
+                            class="account-button"
+                            type="button"
+                        >
+                            Create account
+                        </button>
+                    </div>
+
+                    <div
+                        id="signed-in-controls"
+                        class="account-actions signed-in-controls"
+                        hidden
+                    >
+                        <p class="account-identity">
+                            Signed in as
+                            <strong id="account-username"></strong>
+                        </p>
+
+                        <button
+                            id="open-account"
+                            class="account-button account-button-ghost"
+                            type="button"
+                        >
+                            Account
+                        </button>
+
+                        <button
+                            id="logout-button"
+                            class="account-button"
+                            type="button"
+                        >
+                            Sign out
+                        </button>
+                    </div>
+
+                    <p
+                        id="account-message"
+                        class="account-message"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+                </nav>
+            </header>
+
+            <div class="chapter-rule" aria-hidden="true">
+                <span></span>
+                <b>✦</b>
+                <span></span>
             </div>
-        </section>
-        <dialog
-    id="auth-dialog"
-    class="auth-dialog"
-    aria-labelledby="auth-dialog-title"
->
-    <section class="auth-dialog-card">
-        <button
-            id="close-auth-dialog"
-            class="dialog-close"
-            type="button"
-            aria-label="Close account window"
-        >
-            ×
-        </button>
 
-        <p class="step-label">The keeper of worlds</p>
+            <!-- The workspace is split into an upload panel and a preview panel. -->
+            <section class="seed-workspace">
+                <div class="upload-panel">
+                    <p class="step-label">The first rite</p>
+                    <h2>Offer a shape</h2>
 
-        <h2 id="auth-dialog-title">
-            Return to WorldWake
-        </h2>
+                    <p class="instructions">
+                        A coastline from a notebook. An old county line. A stain
+                        from this morning&rsquo;s tea. Any shape can hold a world.
+                    </p>
 
-        <p
-            id="auth-dialog-introduction"
-            class="auth-dialog-introduction"
-        >
-            Sign in to continue shaping your worlds.
-        </p>
+                    <label class="drop-zone" for="seed-image">
+                        <span class="drop-rune" aria-hidden="true">⌁</span>
+                        <span class="drop-title">Lay your image here</span>
+                        <span class="drop-subtitle">or choose one from your collection</span>
+                    </label>
 
-        <p
-            id="auth-status"
-            class="auth-status"
-            role="status"
-            aria-live="polite"
-        ></p>
+                    <input
+                        id="seed-image"
+                        type="file"
+                        accept="image/*"
+                    >
 
-        <form
-            id="login-form"
-            class="auth-form"
-        >
-            <label class="auth-field">
-                <span>Username or email</span>
-                <input
-                    name="identifier"
-                    type="text"
-                    autocomplete="username"
-                    maxlength="320"
-                    required
-                >
-            </label>
+                    <p id="file-name" class="file-name">
+                        The table is empty.
+                    </p>
 
-            <label class="auth-field">
-                <span>Password</span>
-                <input
-                    name="password"
-                    type="password"
-                    autocomplete="current-password"
-                    maxlength="128"
-                    required
-                >
-            </label>
+                    <aside class="field-note">
+                        <span>Field note № 01</span>
+                        <p>Rough marks are welcome. Worlds rarely begin neatly.</p>
+                    </aside>
+                </div>
 
-            <button
-                class="auth-submit"
-                type="submit"
-            >
-                Sign in
-            </button>
-        </form>
+                <div class="preview-panel">
+                    <div class="map-corner corner-top-left" aria-hidden="true"></div>
+                    <div class="map-corner corner-top-right" aria-hidden="true"></div>
+                    <div class="map-corner corner-bottom-left" aria-hidden="true"></div>
+                    <div class="map-corner corner-bottom-right" aria-hidden="true"></div>
 
-        <form
-            id="register-form"
-            class="auth-form"
-            hidden
-        >
-            <label class="auth-field">
-                <span>Username</span>
-                <input
-                    name="username"
-                    type="text"
-                    autocomplete="username"
-                    minlength="3"
-                    maxlength="30"
-                    required
-                >
-            </label>
+                    <img
+                        id="image-preview"
+                        alt="Preview of the selected world seed"
+                        hidden
+                    >
 
-            <label class="auth-field">
-                <span>Email</span>
-                <input
-                    name="email"
-                    type="email"
-                    autocomplete="email"
-                    maxlength="320"
-                    required
-                >
-            </label>
+                    <div id="preview-message" class="preview-message">
+                        <div class="compass" aria-hidden="true">
+                            <span>N</span>
+                            <i></i>
+                        </div>
+                        <p>No country has taken shape&hellip; yet.</p>
+                        <small>Your unexplored world will appear on this parchment.</small>
+                    </div>
 
-            <label class="auth-field">
-                <span>Password</span>
-                <input
-                    name="password"
-                    type="password"
-                    autocomplete="new-password"
-                    minlength="10"
-                    maxlength="128"
-                    required
-                >
-            </label>
+                    <p class="map-caption" aria-hidden="true">
+                        Charted in the WorldWake atelier
+                    </p>
+                </div>
+            </section>
 
-            <p class="password-note">
-                Use between 10 and 128 characters.
-            </p>
+            <dialog id="auth-dialog" class="auth-dialog" aria-labelledby="auth-dialog-title">
+                <section class="auth-dialog-card">
+                    <button
+                        id="close-auth-dialog"
+                        class="dialog-close"
+                        type="button"
+                        aria-label="Close account window"
+                    >
+                        ×
+                    </button>
 
-            <button
-                class="auth-submit"
-                type="submit"
-            >
-                Create account
-            </button>
-        </form>
+                    <p class="step-label">The keeper of worlds</p>
 
-        <form
-            id="change-password-form"
-            class="auth-form"
-            hidden
-        >
-            <label class="auth-field">
-                <span>Current password</span>
-                <input
-                    name="current_password"
-                    type="password"
-                    autocomplete="current-password"
-                    maxlength="128"
-                    required
-                >
-            </label>
+                    <h2 id="auth-dialog-title">
+                        Return to WorldWake
+                    </h2>
 
-            <label class="auth-field">
-                <span>New password</span>
-                <input
-                    name="new_password"
-                    type="password"
-                    autocomplete="new-password"
-                    minlength="10"
-                    maxlength="128"
-                    required
-                >
-            </label>
+                    <p
+                        id="auth-dialog-introduction"
+                        class="auth-dialog-introduction"
+                    >
+                        Sign in to continue shaping your worlds.
+                    </p>
 
-            <p class="password-note">
-                Changing your password signs out every other session.
-            </p>
+                    <p
+                        id="auth-status"
+                        class="auth-status"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
 
-            <button
-                class="auth-submit"
-                type="submit"
-            >
-                Change password
-            </button>
-        </form>
+                    <form id="login-form" class="auth-form">
+                        <label class="auth-field">
+                            <span>Username or email</span>
+                            <input
+                                name="identifier"
+                                type="text"
+                                autocomplete="username"
+                                maxlength="320"
+                                required
+                            >
+                        </label>
 
-        <div
-            class="auth-switch"
-            data-auth-switch="login"
-        >
-            New to WorldWake?
+                        <label class="auth-field">
+                            <span>Password</span>
+                            <input
+                                name="password"
+                                type="password"
+                                autocomplete="current-password"
+                                maxlength="128"
+                                required
+                            >
+                        </label>
 
-            <button
-                type="button"
-                data-auth-target="register"
-            >
-                Create an account
-            </button>
-        </div>
+                        <button class="auth-submit" type="submit">
+                            Sign in
+                        </button>
+                    </form>
 
-        <div
-            class="auth-switch"
-            data-auth-switch="register"
-            hidden
-        >
-            Already have an account?
+                    <form id="register-form" class="auth-form" hidden>
+                        <label class="auth-field">
+                            <span>Username</span>
+                            <input
+                                name="username"
+                                type="text"
+                                autocomplete="username"
+                                minlength="3"
+                                maxlength="30"
+                                required
+                            >
+                        </label>
 
-            <button
-                type="button"
-                data-auth-target="login"
-            >
-                Sign in
-            </button>
-        </div>
-    </section>
-</dialog>
-    </main>
-</body>
+                        <label class="auth-field">
+                            <span>Email</span>
+                            <input
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                maxlength="320"
+                                required
+                            >
+                        </label>
+
+                        <label class="auth-field">
+                            <span>Password</span>
+                            <input
+                                name="password"
+                                type="password"
+                                autocomplete="new-password"
+                                minlength="10"
+                                maxlength="128"
+                                required
+                            >
+                        </label>
+
+                        <p class="password-note">
+                            Use between 10 and 128 characters.
+                        </p>
+
+                        <button class="auth-submit" type="submit">
+                            Create account
+                        </button>
+                    </form>
+
+                    <form id="change-password-form" class="auth-form" hidden>
+                        <label class="auth-field">
+                            <span>Current password</span>
+                            <input
+                                name="current_password"
+                                type="password"
+                                autocomplete="current-password"
+                                maxlength="128"
+                                required
+                            >
+                        </label>
+
+                        <label class="auth-field">
+                            <span>New password</span>
+                            <input
+                                name="new_password"
+                                type="password"
+                                autocomplete="new-password"
+                                minlength="10"
+                                maxlength="128"
+                                required
+                            >
+                        </label>
+
+                        <p class="password-note">
+                            Changing your password signs out every other session.
+                        </p>
+
+                        <button class="auth-submit" type="submit">
+                            Change password
+                        </button>
+                    </form>
+
+                    <div class="auth-switch" data-auth-switch="login">
+                        New to WorldWake?
+
+                        <button type="button" data-auth-target="register">
+                            Create an account
+                        </button>
+                    </div>
+
+                    <div class="auth-switch" data-auth-switch="register" hidden>
+                        Already have an account?
+
+                        <button type="button" data-auth-target="login">
+                            Sign in
+                        </button>
+                    </div>
+                </section>
+            </dialog>
+        </main>
+    </body>
 </html>
