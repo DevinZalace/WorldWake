@@ -14,12 +14,16 @@ from worldwake.auth.cookies import (
     set_authentication_cookies,
 )
 from worldwake.auth.schemas import (
+    LoginRequest,
     RegisterRequest,
     UserResponse,
 )
 from worldwake.auth.service import (
     ACCOUNT_CONFLICT_MESSAGE,
+    INVALID_CREDENTIALS_MESSAGE,
     AccountConflictError,
+    InvalidCredentialsError,
+    authenticate_user,
     register_user,
 )
 from worldwake.auth.sessions import create_auth_session
@@ -63,6 +67,40 @@ def register_account(
             status_code=status.HTTP_409_CONFLICT,
             detail=ACCOUNT_CONFLICT_MESSAGE,
         ) from error
+
+    set_authentication_cookies(
+        response,
+        issued_session,
+    )
+
+    return UserResponse.model_validate(user)
+
+@router.post(
+    "/login",
+    response_model=UserResponse,
+)
+def login_account(
+    login: LoginRequest,
+    response: Response,
+    database_session: DatabaseSession,
+) -> UserResponse:
+    """Authenticate an account and create a browser session."""
+
+    try:
+        user = authenticate_user(
+            database_session,
+            login,
+        )
+    except InvalidCredentialsError as error:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=INVALID_CREDENTIALS_MESSAGE,
+        ) from error
+
+    issued_session = create_auth_session(
+        database_session,
+        user,
+    )
 
     set_authentication_cookies(
         response,

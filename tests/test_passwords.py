@@ -9,6 +9,7 @@ from worldwake.auth import (
     hash_password,
     password_hash_needs_rehash,
     verify_password,
+    rehash_verified_password,
 )
 
 
@@ -82,3 +83,17 @@ def test_malformed_hash_is_rejected_safely() -> None:
     ) is False
 
     assert password_hash_needs_rehash(malformed_hash) is True
+
+    def test_rehash_verified_password_accepts_legacy_length() -> None:
+        """A verified legacy password may be rehashed under new parameters."""
+
+    legacy_password = "old-short"
+
+    password_hash = rehash_verified_password(
+        legacy_password
+    )
+
+    assert verify_password(
+        password_hash,
+        legacy_password,
+    ) is True

@@ -6,6 +6,7 @@ from worldwake.auth.passwords import (
     PasswordValidationError,
     hash_password,
     password_hash_needs_rehash,
+    rehash_verified_password,
     validate_password,
     verify_password,
 )
@@ -28,7 +29,11 @@ from worldwake.auth.schemas import (
 
 from worldwake.auth.service import (
     ACCOUNT_CONFLICT_MESSAGE,
+    INVALID_CREDENTIALS_MESSAGE,
     AccountConflictError,
+    InvalidCredentialsError,
+    authenticate_user,
+    find_user_by_identifier,
     register_user,
 )
 
@@ -58,6 +63,7 @@ __all__ = [
     "PasswordValidationError",
     "hash_password",
     "password_hash_needs_rehash",
+    "rehash_verified_password",
     "validate_password",
     "verify_password",
     "MAX_USERNAME_LENGTH",
@@ -86,4 +92,8 @@ __all__ = [
     "set_authentication_cookies",
     "ensure_utc",
     "find_active_auth_session",
+    "INVALID_CREDENTIALS_MESSAGE",
+    "InvalidCredentialsError",
+    "authenticate_user",
+    "find_user_by_identifier",
 ]

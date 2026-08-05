@@ -40,6 +40,10 @@ def hash_password(password: str) -> str:
 
     return password_hasher.hash(password)
 
+def rehash_verified_password(password: str) -> str:
+    """Rehash an already verified password using current parameters."""
+
+    return password_hasher.hash(password)
 
 def verify_password(
     password_hash: str,
