@@ -1,15 +1,14 @@
 """HTTP endpoints for WorldWake authentication."""
 
-from typing import Annotated
+
 
 from fastapi import (
     APIRouter,
-    Depends,
     HTTPException,
     Response,
     status,
 )
-from sqlalchemy.orm import Session
+
 
 from worldwake.auth.cookies import (
     set_authentication_cookies,
@@ -24,7 +23,7 @@ from worldwake.auth.service import (
     register_user,
 )
 from worldwake.auth.sessions import create_auth_session
-from worldwake.database import get_database_session
+
 
 
 router = APIRouter(
@@ -32,14 +31,10 @@ router = APIRouter(
     tags=["Authentication"],
 )
 
-
-DatabaseSession = Annotated[
-    Session,
-    Depends(
-        get_database_session,
-        scope="function",
-    ),
-]
+from worldwake.auth.dependencies import (
+    CurrentUser,
+    DatabaseSession,
+)
 
 
 @router.post(
@@ -75,3 +70,16 @@ def register_account(
     )
 
     return UserResponse.model_validate(user)
+
+@router.get(
+    "/me",
+    response_model=UserResponse,
+)
+def read_current_account(
+    current_user: CurrentUser,
+) -> UserResponse:
+    """Return the safely exposed signed-in account."""
+
+    return UserResponse.model_validate(
+        current_user
+    )

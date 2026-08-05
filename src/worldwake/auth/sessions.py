@@ -6,8 +6,9 @@ from datetime import UTC, datetime, timedelta
 from hashlib import sha256
 
 from sqlalchemy.orm import Session
-
 from worldwake.models import AuthSession, User
+from sqlalchemy import select
+from sqlalchemy.orm import Session, joinedload
 
 
 TOKEN_ENTROPY_BYTES = 32
@@ -36,6 +37,54 @@ def hash_token(token: str) -> str:
         token.encode("utf-8")
     ).hexdigest()
 
+def ensure_utc(value: datetime) -> datetime:
+    """Return a datetime interpreted or converted to UTC."""
+
+    if value.tzinfo is None:
+        return value.replace(tzinfo=UTC)
+
+    return value.astimezone(UTC)
+
+
+def find_active_auth_session(
+    database_session: Session,
+    session_token: str,
+    *,
+    now: datetime | None = None,
+) -> AuthSession | None:
+    """Find and refresh a valid authentication session."""
+
+    current_time = ensure_utc(
+        now or datetime.now(UTC)
+    )
+
+    auth_session = database_session.scalar(
+        select(AuthSession)
+        .options(
+            joinedload(AuthSession.user)
+        )
+        .where(
+            AuthSession.token_hash
+            == hash_token(session_token)
+        )
+    )
+
+    if auth_session is None:
+        return None
+
+    if auth_session.revoked_at is not None:
+        return None
+
+    expires_at = ensure_utc(
+        auth_session.expires_at
+    )
+
+    if expires_at <= current_time:
+        return None
+
+    auth_session.last_used_at = current_time
+
+    return auth_session
 
 def create_auth_session(
     database_session: Session,

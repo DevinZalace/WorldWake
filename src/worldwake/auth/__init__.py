@@ -39,6 +39,8 @@ from worldwake.auth.sessions import (
     create_auth_session,
     generate_opaque_token,
     hash_token,
+    ensure_utc,
+    find_active_auth_session,
 )
 
 from worldwake.auth.cookies import (
@@ -82,4 +84,6 @@ __all__ = [
     "SESSION_COOKIE_NAME",
     "secure_cookies_enabled",
     "set_authentication_cookies",
+    "ensure_utc",
+    "find_active_auth_session",
 ]
